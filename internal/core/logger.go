@@ -18,6 +18,7 @@ type logEntry struct {
 	Service     string       `json:"service"`
 	Environment string       `json:"environment"`
 	RequestID   string       `json:"request_id,omitempty"`
+	TraceID     string       `json:"trace_id,omitempty"`
 	Fields      types.Fields `json:"fields,omitempty"`
 }
 
@@ -84,6 +85,17 @@ func (l *Logger) log(level types.Level, msg string, fields types.Fields) {
 		Service:     l.config.ServiceName,
 		Environment: l.config.Environment,
 		Fields:      make(types.Fields),
+	}
+
+	for k, v := range GetTraceFields() {
+		switch k {
+		case "request_id":
+			entry.RequestID = v.(string)
+		case "trace_id":
+			entry.TraceID = v.(string)
+		default:
+			entry.Fields[k] = v
+		}
 	}
 
 	l.mergeFields(entry, fields)
