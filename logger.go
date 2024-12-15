@@ -7,8 +7,8 @@ import (
 
 // Expose types from types package
 type (
-	Level  = types.Level
 	Fields = types.Fields
+	Level  = types.Level
 	Logger = types.Logger
 	Config = types.Config
 )
