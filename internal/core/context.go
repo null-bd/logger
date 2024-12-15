@@ -1,5 +1,5 @@
 // trace_context.go
-package logger
+package core
 
 import (
 	"bytes"
@@ -8,6 +8,8 @@ import (
 	"strconv"
 	"sync"
 	"time"
+
+	"github.com/null-bd/logger/types"
 )
 
 type traceStore struct {
@@ -16,7 +18,7 @@ type traceStore struct {
 }
 
 type traceEntry struct {
-	fields    Fields
+	fields    types.Fields
 	timestamp time.Time
 }
 
@@ -108,7 +110,7 @@ func performSizeBasedCleanup() {
 }
 
 // SetTraceFields sets trace fields for current goroutine
-func SetTraceFields(fields Fields) {
+func SetTraceFields(fields types.Fields) {
 	gID := getGoroutineID()
 	globalTraceContext.mu.Lock()
 	globalTraceContext.traces[gID] = &traceEntry{
@@ -119,7 +121,7 @@ func SetTraceFields(fields Fields) {
 }
 
 // GetTraceFields gets trace fields for current goroutine
-func GetTraceFields() Fields {
+func GetTraceFields() types.Fields {
 	gID := getGoroutineID()
 	globalTraceContext.mu.RLock()
 	defer globalTraceContext.mu.RUnlock()

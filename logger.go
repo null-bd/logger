@@ -22,6 +22,13 @@ const (
 	FatalLevel = types.FatalLevel
 )
 
+// Expose trace functions
+var (
+	SetTraceFields   = core.SetTraceFields
+	GetTraceFields   = core.GetTraceFields
+	ClearTraceFields = core.ClearTraceFields
+)
+
 // New creates a new logger instance with the provided configuration
 func New(cfg *Config) (Logger, error) {
 	return core.NewLogger(cfg)
