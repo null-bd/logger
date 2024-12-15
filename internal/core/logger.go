@@ -1,7 +1,6 @@
 package core
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -9,7 +8,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/null-bd/logger/types"
 )
 
@@ -74,7 +72,7 @@ func (l *Logger) createWriter(path string) (io.Writer, error) {
 	}
 }
 
-func (l *Logger) log(ctx context.Context, level types.Level, msg string, fields types.Fields) {
+func (l *Logger) log(level types.Level, msg string, fields types.Fields) {
 	if !l.isLevelEnabled(level) {
 		return
 	}
@@ -88,7 +86,6 @@ func (l *Logger) log(ctx context.Context, level types.Level, msg string, fields 
 		Fields:      make(types.Fields),
 	}
 
-	entry.RequestID = l.getRequestID(ctx)
 	l.mergeFields(entry, fields)
 	l.writeLog(entry)
 }
@@ -102,13 +99,6 @@ func (l *Logger) isLevelEnabled(level types.Level) bool {
 		types.FatalLevel: 4,
 	}
 	return levels[level] >= levels[l.config.LogLevel]
-}
-
-func (l *Logger) getRequestID(ctx context.Context) string {
-	if reqID, ok := ctx.Value("request_id").(string); ok {
-		return reqID
-	}
-	return uuid.New().String()
 }
 
 func (l *Logger) mergeFields(entry *logEntry, fields types.Fields) {
@@ -154,24 +144,24 @@ func (l *Logger) writeLog(entry *logEntry) {
 }
 
 // Logger interface implementation
-func (l *Logger) Debug(ctx context.Context, msg string, fields types.Fields) {
-	l.log(ctx, types.DebugLevel, msg, fields)
+func (l *Logger) Debug(msg string, fields types.Fields) {
+	l.log(types.DebugLevel, msg, fields)
 }
 
-func (l *Logger) Info(ctx context.Context, msg string, fields types.Fields) {
-	l.log(ctx, types.InfoLevel, msg, fields)
+func (l *Logger) Info(msg string, fields types.Fields) {
+	l.log(types.InfoLevel, msg, fields)
 }
 
-func (l *Logger) Warn(ctx context.Context, msg string, fields types.Fields) {
-	l.log(ctx, types.WarnLevel, msg, fields)
+func (l *Logger) Warn(msg string, fields types.Fields) {
+	l.log(types.WarnLevel, msg, fields)
 }
 
-func (l *Logger) Error(ctx context.Context, msg string, fields types.Fields) {
-	l.log(ctx, types.ErrorLevel, msg, fields)
+func (l *Logger) Error(msg string, fields types.Fields) {
+	l.log(types.ErrorLevel, msg, fields)
 }
 
-func (l *Logger) Fatal(ctx context.Context, msg string, fields types.Fields) {
-	l.log(ctx, types.FatalLevel, msg, fields)
+func (l *Logger) Fatal(msg string, fields types.Fields) {
+	l.log(types.FatalLevel, msg, fields)
 	os.Exit(1)
 }
 

@@ -1,7 +1,5 @@
 package types
 
-import "context"
-
 // Level represents log severity
 type Level string
 
@@ -18,11 +16,11 @@ type Fields map[string]interface{}
 
 // Logger defines the interface for logging operations
 type Logger interface {
-	Debug(ctx context.Context, msg string, fields Fields)
-	Info(ctx context.Context, msg string, fields Fields)
-	Warn(ctx context.Context, msg string, fields Fields)
-	Error(ctx context.Context, msg string, fields Fields)
-	Fatal(ctx context.Context, msg string, fields Fields)
+	Debug(msg string, fields Fields)
+	Info(msg string, fields Fields)
+	Warn(msg string, fields Fields)
+	Error(msg string, fields Fields)
+	Fatal(msg string, fields Fields)
 	WithFields(fields Fields) Logger
 }
 
