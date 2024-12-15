@@ -179,11 +179,3 @@ userLogger.Info(ctx, "User action completed", logger.Fields{
    ctx := context.Background()
    log.Info(ctx, "Processing started", fields)
    ```
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
