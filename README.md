@@ -17,7 +17,7 @@ A lightweight, structured logging library for Go applications with support for m
 ## Installation
 
 ```bash
-go get github.com/yourorg/logger
+go get github.com/null-bd/logger
 ```
 
 ## Quick Start
@@ -27,7 +27,7 @@ package main
 
 import (
     "context"
-    "github.com/yourorg/logger"
+    "github.com/null-bd/logger"
 )
 
 func main() {
